@@ -15,6 +15,7 @@
       font-family: Arial, sans-serif;
       background: #f7f7f7;
       cursor: none; /* hide default cursor */
+      overflow: hidden;
     }
 
     h1 {
@@ -35,6 +36,8 @@
       padding: 12px 24px;
       margin: 0 10px;
       cursor: pointer;
+      position: relative;
+      transition: transform 0.3s ease;
     }
 
     #customCursor {
@@ -42,6 +45,7 @@
       pointer-events: none;
       font-size: 24px;
       transform: translate(-50%, -50%);
+      transition: left 0.1s ease, top 0.1s ease; /* smooth following */
     }
   </style>
 </head>
@@ -59,20 +63,31 @@
   <script>
     const cursor = document.getElementById('customCursor');
     const yesBtn = document.getElementById('yes');
+    const noBtn = document.getElementById('no');
 
-    document.addEventListener('mousemove', (e) => {
+    // Function to move cursor to the center of the "Yes" button
+    function moveCursorToYes() {
       const rect = yesBtn.getBoundingClientRect();
       cursor.style.left = rect.left + rect.width / 2 + 'px';
       cursor.style.top = rect.top + rect.height / 2 + 'px';
-    });
+    }
+
+    // Move cursor to Yes automatically on load
+    moveCursorToYes();
+
+    // Keep cursor following Yes if window resizes
+    window.addEventListener('resize', moveCursorToYes);
 
     yesBtn.addEventListener('click', () => {
       alert('Thank you ❤️');
     });
 
-    document.getElementById('no').addEventListener('mouseenter', () => {
-      document.getElementById('no').style.transform = 'translateX(200px)';
+    // Make "No" button dodge the cursor
+    noBtn.addEventListener('mouseenter', () => {
+      const randomX = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const randomY = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.transform = `translate(${randomX - noBtn.offsetLeft}px, ${randomY - noBtn.offsetTop}px)`;
     });
   </script>
 </body>
-</html>  
+</html>
