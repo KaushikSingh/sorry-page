@@ -15,7 +15,7 @@
       justify-content: center;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #ffe3e3, #ffd6d6);
-      cursor: none; /* hide default cursor */
+      cursor: none; /* hide real cursor */
       overflow: hidden;
     }
 
@@ -51,6 +51,7 @@
       transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
       position: relative;
       z-index: 1;
+      cursor: default; /* no pointer on Yes button */
     }
 
     button:hover {
@@ -74,7 +75,7 @@
       font-size: 2.5rem;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: transform 0.1s linear;
+      transition: transform 0.05s linear;
       animation: bounce 1s infinite alternate;
     }
 
@@ -103,18 +104,30 @@
     const yesBtn = document.getElementById('yes');
     const noBtn = document.getElementById('no');
 
-    let cursorX = 0;
-    let cursorY = 0;
+    let cursorX = window.innerWidth / 2;
+    let cursorY = window.innerHeight / 2;
+    let mouseX = cursorX;
+    let mouseY = cursorY;
 
-    // Smoothly move cursor towards target
+    // Track real mouse (to make cursor magnetic)
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
     function animateCursor() {
       const rect = yesBtn.getBoundingClientRect();
       const targetX = rect.left + rect.width / 2;
       const targetY = rect.top + rect.height / 2;
 
-      // Linear interpolation for smooth motion
-      cursorX += (targetX - cursorX) * 0.15;
-      cursorY += (targetY - cursorY) * 0.15;
+      // Magnetic effect: cursor moves towards Yes button, influenced by mouse
+      const influence = 0.25; // how strongly the button attracts cursor
+      const blendX = targetX * influence + mouseX * (1 - influence);
+      const blendY = targetY * influence + mouseY * (1 - influence);
+
+      // Smooth motion
+      cursorX += (blendX - cursorX) * 0.15;
+      cursorY += (blendY - cursorY) * 0.15;
 
       cursor.style.left = cursorX + 'px';
       cursor.style.top = cursorY + 'px';
@@ -141,6 +154,8 @@
       const rect = yesBtn.getBoundingClientRect();
       cursorX = rect.left + rect.width / 2;
       cursorY = rect.top + rect.height / 2;
+      mouseX = cursorX;
+      mouseY = cursorY;
     });
   </script>
 </body>
