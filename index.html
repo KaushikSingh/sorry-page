@@ -50,6 +50,7 @@
       box-shadow: 0 6px 15px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
       position: relative;
+      z-index: 1;
     }
 
     button:hover {
@@ -71,14 +72,15 @@
       position: fixed;
       pointer-events: none;
       font-size: 2.5rem;
+      z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: left 0.15s ease, top 0.15s ease;
+      transition: transform 0.1s linear;
       animation: bounce 1s infinite alternate;
     }
 
     @keyframes bounce {
       0% { transform: translate(-50%, -50%) translateY(0); }
-      100% { transform: translate(-50%, -50%) translateY(-10px); }
+      100% { transform: translate(-50%, -50%) translateY(-8px); }
     }
   </style>
 </head>
@@ -101,15 +103,26 @@
     const yesBtn = document.getElementById('yes');
     const noBtn = document.getElementById('no');
 
-    // Move cursor to center of Yes button
-    function moveCursorToYes() {
+    let cursorX = 0;
+    let cursorY = 0;
+
+    // Smoothly move cursor towards target
+    function animateCursor() {
       const rect = yesBtn.getBoundingClientRect();
-      cursor.style.left = rect.left + rect.width / 2 + 'px';
-      cursor.style.top = rect.top + rect.height / 2 + 'px';
+      const targetX = rect.left + rect.width / 2;
+      const targetY = rect.top + rect.height / 2;
+
+      // Linear interpolation for smooth motion
+      cursorX += (targetX - cursorX) * 0.15;
+      cursorY += (targetY - cursorY) * 0.15;
+
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+
+      requestAnimationFrame(animateCursor);
     }
 
-    moveCursorToYes();
-    window.addEventListener('resize', moveCursorToYes);
+    animateCursor();
 
     // Yes button click
     yesBtn.addEventListener('click', () => {
@@ -121,6 +134,13 @@
       const randomX = Math.random() * (window.innerWidth - noBtn.offsetWidth);
       const randomY = Math.random() * (window.innerHeight - noBtn.offsetHeight);
       noBtn.style.transform = `translate(${randomX - noBtn.offsetLeft}px, ${randomY - noBtn.offsetTop}px)`;
+    });
+
+    // Recalculate cursor immediately on window resize
+    window.addEventListener('resize', () => {
+      const rect = yesBtn.getBoundingClientRect();
+      cursorX = rect.left + rect.width / 2;
+      cursorY = rect.top + rect.height / 2;
     });
   </script>
 </body>
