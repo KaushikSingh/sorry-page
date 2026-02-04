@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I'm Really Sorry</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      cursor: none; /* hide default cursor */
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .buttons {
+      position: relative;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 12px 24px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    #customCursor {
+      position: fixed;
+      pointer-events: none;
+      font-size: 24px;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <h1>I'm really sorry</h1>
+  <p>I know what I did was wrong. Please forgive me.</p>
+
+  <div class="buttons">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+
+  <div id="customCursor">👉</div>
+
+  <script>
+    const cursor = document.getElementById('customCursor');
+    const yesBtn = document.getElementById('yes');
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = yesBtn.getBoundingClientRect();
+      cursor.style.left = rect.left + rect.width / 2 + 'px';
+      cursor.style.top = rect.top + rect.height / 2 + 'px';
+    });
+
+    yesBtn.addEventListener('click', () => {
+      alert('Thank you ❤️');
+    });
+
+    document.getElementById('no').addEventListener('mouseenter', () => {
+      document.getElementById('no').style.transform = 'translateX(200px)';
+    });
+  </script>
+</body>
+</html>
