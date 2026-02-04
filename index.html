@@ -138,7 +138,7 @@
       const targetX = rect.left + rect.width / 2;
       const targetY = rect.top + rect.height / 2;
 
-      // Magnetic effect
+      // Magnetic effect: cursor follows Yes button and is influenced by mouse
       const influence = 0.25;
       const blendX = targetX * influence + mouseX * (1 - influence);
       const blendY = targetY * influence + mouseY * (1 - influence);
@@ -166,8 +166,8 @@
       noBtn.style.transform = `translate(${randomX - noBtn.offsetLeft}px, ${randomY - noBtn.offsetTop}px)`;
     });
 
-    // Visitor counter using CountAPI
-    fetch('https://api.countapi.xyz/hit/myapologypage/visits')
+    // Visitor counter using CountAPI (every load counts)
+    fetch('https://api.countapi.xyz/hit/myapologypage/visits?unique=' + Math.random())
       .then(res => res.json())
       .then(data => {
         counterElement.textContent = `Visitor count: ${data.value}`;
