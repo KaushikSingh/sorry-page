@@ -54,6 +54,17 @@
       cursor: default; /* no pointer on Yes button */
     }
 
+    /* Glowing/pulse effect for Yes button */
+    #yes {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 6px 15px rgba(255,107,129,0.5); transform: scale(1); }
+      50% { box-shadow: 0 10px 30px rgba(255,107,129,0.7); transform: scale(1.05); }
+      100% { box-shadow: 0 6px 15px rgba(255,107,129,0.5); transform: scale(1); }
+    }
+
     button:hover {
       transform: scale(1.1);
       box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -83,6 +94,12 @@
       0% { transform: translate(-50%, -50%) translateY(0); }
       100% { transform: translate(-50%, -50%) translateY(-8px); }
     }
+
+    #visitorCount {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
@@ -96,32 +113,33 @@
 
   <div id="customCursor">👉</div>
 
-  <!-- Visitor counter (invisible) -->
- 
+  <p id="visitorCount">Loading visitor count...</p>
 
   <script>
     const cursor = document.getElementById('customCursor');
     const yesBtn = document.getElementById('yes');
     const noBtn = document.getElementById('no');
+    const counterElement = document.getElementById('visitorCount');
 
     let cursorX = window.innerWidth / 2;
     let cursorY = window.innerHeight / 2;
     let mouseX = cursorX;
     let mouseY = cursorY;
 
-    // Track real mouse (to make cursor magnetic)
+    // Track real mouse
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     });
 
+    // Animate cursor with magnetic effect
     function animateCursor() {
       const rect = yesBtn.getBoundingClientRect();
       const targetX = rect.left + rect.width / 2;
       const targetY = rect.top + rect.height / 2;
 
-      // Magnetic effect: cursor moves towards Yes button, influenced by mouse
-      const influence = 0.25; // how strongly the button attracts cursor
+      // Magnetic effect
+      const influence = 0.25;
       const blendX = targetX * influence + mouseX * (1 - influence);
       const blendY = targetY * influence + mouseY * (1 - influence);
 
@@ -134,7 +152,6 @@
 
       requestAnimationFrame(animateCursor);
     }
-
     animateCursor();
 
     // Yes button click
@@ -149,7 +166,18 @@
       noBtn.style.transform = `translate(${randomX - noBtn.offsetLeft}px, ${randomY - noBtn.offsetTop}px)`;
     });
 
-    // Recalculate cursor immediately on window resize
+    // Visitor counter using CountAPI
+    fetch('https://api.countapi.xyz/hit/myapologypage/visits')
+      .then(res => res.json())
+      .then(data => {
+        counterElement.textContent = `Visitor count: ${data.value}`;
+      })
+      .catch(err => {
+        console.error('CountAPI error:', err);
+        counterElement.textContent = 'Visitor count: N/A';
+      });
+
+    // Recalculate cursor on window resize
     window.addEventListener('resize', () => {
       const rect = yesBtn.getBoundingClientRect();
       cursorX = rect.left + rect.width / 2;
