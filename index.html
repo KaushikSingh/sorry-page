@@ -75,9 +75,8 @@ animation:confettiFall 1.5s linear forwards;
 </div>
 
 <div id="customCursor">👉</div>
-<div id="visitorCount"></div>
-  <script data-goatcounter="https://kaushiksingh.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+
+  <script data-goatcounter="https://kaushiksingh.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 <script>
 const cursor=document.getElementById('customCursor');
@@ -146,14 +145,6 @@ noBtn.style.transform=`scale(${noScale})`;
 if(noClicks===4){
 alert("⚠️ Battery critically low… Only 'Yes' button has power remaining.");
 }
-});
-
-noBtn.addEventListener('mouseenter',()=>{
-const randomX=Math.random()*(window.innerWidth-noBtn.offsetWidth);
-const randomY=Math.random()*(window.innerHeight-noBtn.offsetHeight);
-noBtn.style.left=randomX+"px";
-noBtn.style.top=randomY+"px";
-noBtn.style.position="absolute";
 });
 
 function launchCelebration(){
