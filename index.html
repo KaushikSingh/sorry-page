@@ -1,191 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>I'm Really Sorry</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #ffe3e3, #ffd6d6);
-      cursor: none; /* hide real cursor */
-      overflow: hidden;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>I'm Really Sorry</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+height:100vh;margin:0;display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#ffe3e3,#ffd6d6);
+cursor:none;overflow:hidden;
+}
+h1{margin-bottom:10px;font-size:3rem;color:#ff4d6d;}
+p{margin-bottom:40px;font-size:1.2rem;color:#333;text-align:center;}
+.buttons{position:relative;display:flex;gap:20px;}
 
-    h1 {
-      margin-bottom: 10px;
-      font-size: 3rem;
-      color: #ff4d6d;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
-    }
+button{
+font-size:1.1rem;padding:14px 28px;border:none;border-radius:12px;
+background:#ff6b81;color:white;font-weight:600;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+transition:transform .3s ease,background .3s ease;
+position:relative;z-index:1;cursor:default;
+}
 
-    p {
-      margin-bottom: 40px;
-      font-size: 1.2rem;
-      color: #333;
-      text-align: center;
-    }
+#yes{animation:pulse 2s infinite;}
+@keyframes pulse{
+0%{box-shadow:0 6px 15px rgba(255,107,129,.5);transform:scale(1);}
+50%{box-shadow:0 10px 30px rgba(255,107,129,.7);transform:scale(1.05);}
+100%{box-shadow:0 6px 15px rgba(255,107,129,.5);transform:scale(1);}
+}
 
-    .buttons {
-      position: relative;
-      display: flex;
-      gap: 20px;
-    }
+#no{background:#f0f0f0;color:#333;}
 
-    button {
-      font-size: 1.1rem;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 12px;
-      background: #ff6b81;
-      color: white;
-      font-weight: 600;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      z-index: 1;
-      cursor: default; /* no pointer on Yes button */
-    }
+#customCursor{
+position:fixed;pointer-events:none;font-size:2.5rem;
+z-index:9999;transform:translate(-50%,-50%);
+animation:bounce 1s infinite alternate;
+}
+@keyframes bounce{
+0%{transform:translate(-50%,-50%) translateY(0);}
+100%{transform:translate(-50%,-50%) translateY(-8px);}
+}
 
-    /* Glowing/pulse effect for Yes button */
-    #yes {
-      animation: pulse 2s infinite;
-    }
+.heart{
+position:fixed;font-size:24px;
+animation:floatUp 1.5s linear forwards;
+}
+@keyframes floatUp{
+0%{opacity:1;transform:translateY(0) scale(1);}
+100%{opacity:0;transform:translateY(-200px) scale(1.5);}
+}
 
-    @keyframes pulse {
-      0% { box-shadow: 0 6px 15px rgba(255,107,129,0.5); transform: scale(1); }
-      50% { box-shadow: 0 10px 30px rgba(255,107,129,0.7); transform: scale(1.05); }
-      100% { box-shadow: 0 6px 15px rgba(255,107,129,0.5); transform: scale(1); }
-    }
-
-    button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-      background: #ff4d6d;
-    }
-
-    #no {
-      background: #f0f0f0;
-      color: #333;
-    }
-
-    #no:hover {
-      background: #e0e0e0;
-    }
-
-    #customCursor {
-      position: fixed;
-      pointer-events: none;
-      font-size: 2.5rem;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s linear;
-      animation: bounce 1s infinite alternate;
-    }
-
-    @keyframes bounce {
-      0% { transform: translate(-50%, -50%) translateY(0); }
-      100% { transform: translate(-50%, -50%) translateY(-8px); }
-    }
-
-    #visitorCount {
-      margin-top: 30px;
-      font-size: 16px;
-      color: #555;
-    }
-  </style>
+.confetti{
+position:fixed;width:8px;height:8px;
+background:#ff6b81;
+animation:confettiFall 1.5s linear forwards;
+}
+@keyframes confettiFall{
+0%{opacity:1;transform:translateY(0);}
+100%{opacity:0;transform:translateY(300px);}
+}
+</style>
 </head>
 <body>
-  <h1>I'm really sorry</h1>
-  <p>I know what I did was wrong. Please forgive me.</p>
 
-  <div class="buttons">
-    <button id="yes">Yes</button>
-    <button id="no">No</button>
-  </div>
+<h1>I'm really sorry</h1>
+<p>I know what I did was wrong. Please forgive me.</p>
 
-  <div id="customCursor">👉</div>
+<div class="buttons">
+<button id="yes">Yes</button>
+<button id="no">No</button>
+</div>
 
+<div id="customCursor">👉</div>
+<div id="visitorCount"></div>
   <script data-goatcounter="https://kaushiksingh.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 
-  <script>
-    const cursor = document.getElementById('customCursor');
-    const yesBtn = document.getElementById('yes');
-    const noBtn = document.getElementById('no');
-    const counterElement = document.getElementById('visitorCount');
+<script>
+const cursor=document.getElementById('customCursor');
+const yesBtn=document.getElementById('yes');
+const noBtn=document.getElementById('no');
 
-    let cursorX = window.innerWidth / 2;
-    let cursorY = window.innerHeight / 2;
-    let mouseX = cursorX;
-    let mouseY = cursorY;
+let cursorX=window.innerWidth/2;
+let cursorY=window.innerHeight/2;
+let mouseX=cursorX;
+let mouseY=cursorY;
 
-    // Track real mouse
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+let noClicks=0;
+let yesScale=1;
+let noScale=1;
 
-    // Animate cursor with magnetic effect
-    function animateCursor() {
-      const rect = yesBtn.getBoundingClientRect();
-      const targetX = rect.left + rect.width / 2;
-      const targetY = rect.top + rect.height / 2;
+const pleas=[
+"Please?",
+"Pretty please 🥺",
+"Come on… please?",
+"I'll owe you 😭 please?",
+"With sugar on top 🍬 please?",
+"One last chance please 🙏",
+"Okay but seriously… please ❤️"
+].sort(()=>Math.random()-0.5);
 
-      // Magnetic effect: cursor follows Yes button and is influenced by mouse
-      const influence = 0.25;
-      const blendX = targetX * influence + mouseX * (1 - influence);
-      const blendY = targetY * influence + mouseY * (1 - influence);
+function nextPlease(){
+noClicks++;
+return pleas[noClicks%pleas.length];
+}
 
-      // Smooth motion
-      cursorX += (blendX - cursorX) * 0.15;
-      cursorY += (blendY - cursorY) * 0.15;
+document.addEventListener('mousemove',e=>{
+mouseX=e.clientX;
+mouseY=e.clientY;
+});
 
-      cursor.style.left = cursorX + 'px';
-      cursor.style.top = cursorY + 'px';
+function animateCursor(){
+const rect=yesBtn.getBoundingClientRect();
+const targetX=rect.left+rect.width/2;
+const targetY=rect.top+rect.height/2;
+const influence=0.25;
+const blendX=targetX*influence+mouseX*(1-influence);
+const blendY=targetY*influence+mouseY*(1-influence);
+cursorX+=(blendX-cursorX)*0.15;
+cursorY+=(blendY-cursorY)*0.15;
+cursor.style.left=cursorX+'px';
+cursor.style.top=cursorY+'px';
+requestAnimationFrame(animateCursor);
+}
+animateCursor();
 
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
+yesBtn.addEventListener('click',()=>{
+alert('Thank you ❤️');
+launchCelebration();
+});
 
-    // Yes button click
-    yesBtn.addEventListener('click', () => {
-      alert('Thank you ❤️');
-    });
+noBtn.addEventListener('click',()=>{
+alert(nextPlease());
 
-    // No button dodges cursor
-    noBtn.addEventListener('mouseenter', () => {
-      const randomX = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-      const randomY = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-      noBtn.style.transform = `translate(${randomX - noBtn.offsetLeft}px, ${randomY - noBtn.offsetTop}px)`;
-    });
+yesScale+=0.15;
+noScale-=0.1;
+if(noScale<0.4) noScale=0.4;
 
-    // Visitor counter using CountAPI (every load counts)
-    fetch('https://api.countapi.xyz/hit/myapologypage/visits?unique=' + Math.random())
-      .then(res => res.json())
-      .then(data => {
-        counterElement.textContent = `Visitor count: ${data.value}`;
-      })
-      .catch(err => {
-        console.error('CountAPI error:', err);
-        counterElement.textContent = 'Visitor count: N/A';
-      });
+yesBtn.style.transform=`scale(${yesScale})`;
+noBtn.style.transform=`scale(${noScale})`;
 
-    // Recalculate cursor on window resize
-    window.addEventListener('resize', () => {
-      const rect = yesBtn.getBoundingClientRect();
-      cursorX = rect.left + rect.width / 2;
-      cursorY = rect.top + rect.height / 2;
-      mouseX = cursorX;
-      mouseY = cursorY;
-    });
-  </script>
+if(noClicks===4){
+alert("⚠️ Battery critically low… Only 'Yes' button has power remaining.");
+}
+});
+
+noBtn.addEventListener('mouseenter',()=>{
+const randomX=Math.random()*(window.innerWidth-noBtn.offsetWidth);
+const randomY=Math.random()*(window.innerHeight-noBtn.offsetHeight);
+noBtn.style.left=randomX+"px";
+noBtn.style.top=randomY+"px";
+noBtn.style.position="absolute";
+});
+
+function launchCelebration(){
+for(let i=0;i<25;i++){
+const heart=document.createElement('div');
+heart.className='heart';
+heart.innerText='❤️';
+heart.style.left=Math.random()*window.innerWidth+'px';
+heart.style.top=Math.random()*window.innerHeight+'px';
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),1500);
+}
+
+for(let i=0;i<40;i++){
+const conf=document.createElement('div');
+conf.className='confetti';
+conf.style.left=Math.random()*window.innerWidth+'px';
+conf.style.top=Math.random()*window.innerHeight+'px';
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),1500);
+}
+}
+</script>
+
 </body>
 </html>
